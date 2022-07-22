@@ -1,64 +1,74 @@
+// You can import Ionicons from @expo/vector-icons if you use Expo or
+// react-native-vector-icons/Ionicons otherwise.
 import * as React from 'react';
-import { Button, View, Text,TextInput } from 'react-native';
+import { Text, View } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs/';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import HomeScreen from './Screen/homeScreen'
 
-function HomeScreen({ navigation, route }) {
-  React.useEffect(() => {
-    if (route.params?.post) {
-      // Post updated, do something with `route.params.post`
-      // For example, send the post to the server
-    }
-  }, [route.params?.post]);
 
+
+function ShortScreen() {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button
-        title="Create post"
-        onPress={() => navigation.navigate('CreatePost')}
-      />
-      <Text style={{ margin: 10 }}>Post: {route.params?.post}</Text>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Short</Text>
+    </View>
+  );
+}
+function SubscribeScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Subcribe!</Text>
     </View>
   );
 }
 
-function CreatePostScreen({ navigation, route }) {
-  const [postText, setPostText] = React.useState('');
-
+function LibraryScreen() {
   return (
-    <>
-      <TextInput
-        multiline
-        placeholder="What's on your mind?"
-        style={{ height: 200, padding: 10, backgroundColor: 'white' }}
-        value={postText}
-        onChangeText={setPostText}
-      />
-      <Button
-        title="Done"
-        onPress={() => {
-          // Pass and merge params back to home screen
-          navigation.navigate({
-            name: 'Home',
-            params: { post: postText },
-            merge: true,
-          });
-        }}
-      />
-    </>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Library!</Text>
+    </View>
   );
 }
-const Stack = createNativeStackNavigator();
 
-function App() {
+const Tab = createBottomTabNavigator();
+
+export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="CreatePost" component={CreatePostScreen} />
-      </Stack.Navigator>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          
+          tabBarIcon: ({ focused }) => {
+            let iconname;
+            if(route.name ==='Home')     {
+              iconname = "home"
+            }
+            else if(route.name ==='Short') {    
+              iconname ="rocket"
+            }
+            else if(route.name ==='Subcribe')     {
+              iconname ="magic"
+            }
+            else if(route.name ==='Library')     {
+             iconname ="rocket"
+              }
+              return (
+                <Icon name={iconname} size={30} color="#900" />
+              )
+          },
+   
+        })}
+      >
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Short" component={ShortScreen} />
+        
+        <Tab.Screen name="Subcribe" component={SubscribeScreen} />
+        <Tab.Screen name="Library" component={LibraryScreen} />
+
+
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
-
-export default App;
