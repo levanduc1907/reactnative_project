@@ -1,19 +1,20 @@
 // You can import Ionicons from @expo/vector-icons if you use Expo or
 // react-native-vector-icons/Ionicons otherwise.
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View,ScrollView } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs/';
 import { NavigationContainer } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import HomeScreen from './Screen/homeScreen'
+import HomeScreen from './Screen/HomeScreen'
 
 
 
 function ShortScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Short</Text>
-    </View>
+    <ScrollView >
+       <Text>ok</Text>
+
+      </ScrollView>
   );
 }
 function SubscribeScreen() {
@@ -27,7 +28,7 @@ function SubscribeScreen() {
 function LibraryScreen() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Library!</Text>
+      <Text >Library!</Text>
     </View>
   );
 }
