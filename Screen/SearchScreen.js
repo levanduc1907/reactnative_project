@@ -76,6 +76,34 @@ export function SearchResult({route, navigation}) {
 
   return (
     <View style={{flex: 1}}>
+      <View
+        style={{
+          height: 50,
+          flexDirection: 'row',
+          alignItems: 'center',
+          backgroundColor: '#fff',
+        }}>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <Image
+            style={styles.backBtn}
+            source={require('../assets/img/back.png')}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          // eslint-disable-next-line react-native/no-inline-styles
+          style={{
+            height: 30,
+            backgroundColor: '#e8e8e8',
+            alignContent: 'center',
+            padding: 5,
+            flex: 1,
+            marginRight: 20,
+            borderRadius:3
+          }}
+          onPress={() => navigation.navigate('Search')}>
+          <Text>{text}</Text>
+        </TouchableOpacity>
+      </View>
       <VideoList data={videos}> </VideoList>
     </View>
   );
@@ -84,6 +112,7 @@ export function SearchResult({route, navigation}) {
 export function SearchScreen() {
   const [text, setText] = useState();
   const navigation = useNavigation();
+
   return (
     // eslint-disable-next-line react-native/no-inline-styles
     <View style={{backgroundColor: '#fff', flex: 1}}>
@@ -91,8 +120,8 @@ export function SearchScreen() {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             style={styles.backBtn}
-            source={require('../assets/img/back.png')} 
-        />
+            source={require('../assets/img/back.png')}
+          />
         </TouchableOpacity>
         <TextInput
           selectionColor="#FF4949"
@@ -102,7 +131,7 @@ export function SearchScreen() {
           onChangeText={newText => setText(newText)}
           defaultValue={text}
           style={styles.input}
-          onSubmitEditing={() => navigation.push('SearchResult', {text})}
+          onSubmitEditing={() => navigation.navigate('SearchResult', {text})}
         />
         <TouchableOpacity
           onPress={() => navigation.push('SearchResult', {text})}>

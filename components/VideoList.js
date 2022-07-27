@@ -12,13 +12,19 @@ import {
 import {Directions} from 'react-native-gesture-handler';
 
 function ConvertView(viewCount) {
+  console.log(viewCount);
+
+  if(!viewCount ) return '0 lượt xem';
   if (viewCount < 1000) {
     return viewCount.toString() + ' lượt xem';
-  } else if (viewCount < 1000000) {
+  }
+  if (viewCount < 1000000) {
     return Math.floor(viewCount / 1000).toString() + ' N lượt xem';
-  } else if (viewCount < 1000000000) {
+  }
+  if (viewCount < 1000000000) {
     return Math.floor(viewCount / 1000000).toString() + ' Tr lượt xem';
-  } else return Math.floor(viewCount / 1000000000).toString() + ' T lượt xem';
+  }
+  return Math.floor(viewCount / 1000000000).toString() + ' T lượt xem';
 }
 function ConvertTime(Publictime) {
   const [Pdate, Ptime] = Publictime.split('T');
