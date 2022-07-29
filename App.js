@@ -9,7 +9,7 @@ import HomeScreen from './Screen/HomeScreen';
 import {SearchScreen, SearchResult} from './Screen/SearchScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Header from './components/header';
-
+import VideoPlayer from './Screen/VideoPlayer';
 function ShortScreen() {
   return (
     <ScrollView>
@@ -44,8 +44,25 @@ function HomeStackScreen() {
       <HomeStack.Screen
         name="SearchResult"
         component={SearchResult}></HomeStack.Screen>
-    </HomeStack.Navigator>
+      <HomeStack.Screen
+        name="VideoPlayer"
+        component={VideoPlayer}></HomeStack.Screen>
+</HomeStack.Navigator>
   );
+}
+HomeStack.navigationOptions = ({ navigation }) => {
+
+  let tabBarVisible = true;
+
+  let routeName = navigation.state.routes[navigation.state.index].routeName
+
+  if ( routeName == 'VideoPlayer' ) {
+      tabBarVisible = false
+  }
+
+  return {
+      tabBarVisible,
+  }
 }
 
 const Tab = createBottomTabNavigator();
@@ -59,7 +76,7 @@ export default function App() {
             headerShown: false,
             tabBarIcon: ({focused}) => {
               let iconname;
-              if (route.name === 'Home') {
+              if (route.name === 'HomeStack') {
                 iconname = 'home';
               } else if (route.name === 'Short') {
                 iconname = 'rocket';
@@ -71,7 +88,7 @@ export default function App() {
               return <Icon name={iconname} size={30} color="#900" />;
             },
           })}>
-          <Tab.Screen name="Home" component={HomeStackScreen} />
+          <Tab.Screen name="HomeStack" component={HomeStackScreen} />
           <Tab.Screen name="Short" component={ShortScreen} />
 
           <Tab.Screen name="Subcribe" component={SubscribeScreen} />

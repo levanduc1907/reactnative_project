@@ -37,7 +37,7 @@ export function SearchResult({route, navigation}) {
       const response = await fetch(
         'https://youtube.googleapis.com/youtube/v3/search?part=id&maxResults=25&q=' +
           text +
-          '&regionCode=VN&key=AIzaSyDDeetQzqlsCvvTyBrdLrkqqZMPuKgs2nI',
+          '&regionCode=VN&key=AIzaSyCDYkYx_FqApFnNhcmwFDjasu5KRnVVGd0',
       );
       const json = await response.json();
       return json.items;

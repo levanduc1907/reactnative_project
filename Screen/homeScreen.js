@@ -17,6 +17,7 @@ import VideoList from '../components/VideoList';
 
 function HomeScreen({navigation}) {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const getVideoList = async () => {
     try {
       const response = await fetch(
@@ -28,16 +29,17 @@ function HomeScreen({navigation}) {
       console.error(error);
       console.log('error');
     } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
     getVideoList();
   }, []);
-
+if(!loading)
   return (
     <View>
       <Header />
-      <VideoList data={data} />
+      <VideoList data={data} header={false} />
     </View>
   );
 }

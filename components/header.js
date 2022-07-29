@@ -60,7 +60,8 @@ export default function Header() {
           resizeMode: 'contain',
           borderRadius: 13,
           marginRight: 15,
-        }}/>
+        }}
+      />
     </View>
   );
 }

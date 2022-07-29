@@ -1,5 +1,5 @@
 import {ScreenWidth} from '@rneui/base';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState,useRef} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -8,52 +8,16 @@ import {
   Image,
   ScrollView,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
+import VideoPlayerInfo from './VideoPlayer_info.js';
 import {Directions} from 'react-native-gesture-handler';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import { ConvertCount, ConvertTime } from '../components/convert_data';
 
-function ConvertView(viewCount) {
-  console.log(viewCount);
-
-  if(!viewCount ) return '0 lượt xem';
-  if (viewCount < 1000) {
-    return viewCount.toString() + ' lượt xem';
-  }
-  if (viewCount < 1000000) {
-    return Math.floor(viewCount / 1000).toString() + ' N lượt xem';
-  }
-  if (viewCount < 1000000000) {
-    return Math.floor(viewCount / 1000000).toString() + ' Tr lượt xem';
-  }
-  return Math.floor(viewCount / 1000000000).toString() + ' T lượt xem';
-}
-function ConvertTime(Publictime) {
-  const [Pdate, Ptime] = Publictime.split('T');
-  const Current = new Date();
-  const [pYear, pMonth, pDay] = Pdate.split('-').map(d => {
-    return parseInt(d);
-  });
-  const [pHour, pMinute, pSecond] = Ptime.substring(0, 8)
-    .split(':')
-    .map(d => {
-      return parseInt(d);
-    });
-  const pTime = new Date(pYear, pMonth - 1, pDay, pHour, pMinute, pSecond);
-  const Subtime = ((Current.getTime() - pTime.getTime()) / 1000).toFixed();
-  if (Subtime < 60) {
-    return Subtime.toString() + ' giây trước';
-  } else if (Subtime < 3600) {
-    return (Subtime / 60).toFixed().toString() + ' phút trước';
-  } else if (Subtime < 86400) {
-    return (Subtime / 3600).toFixed().toString() + ' giờ trước';
-  } else if (Subtime < 2592000) {
-    return (Subtime / 86400).toFixed().toString() + ' ngày trước';
-  } else if (Subtime < 31536000) {
-    return (Subtime / 2592000).toFixed().toString() + ' tháng trước';
-  } else return (Subtime / 31536000).toFixed().toString() + ' năm trước';
-}
 
 function parseDuration(duration) {
-  var matches = duration.match(/[0-9]+[HMSD]/g);
+  var matches = duration?.match(/[0-9]+[HMSD]/g)|| [];
   var d, h, m, s;
   matches.forEach(function (part) {
     var unit = part.charAt(part.length - 1);
@@ -86,9 +50,10 @@ function parseDuration(duration) {
   );
 }
 
-export default function VideoList(props) {
-  const {data} = props;
-
+export default function VideoList(props,) {
+  const {data,header} = props;
+  const ref = React.useRef();
+  const navigation = useNavigation();
   const styles = StyleSheet.create({
     high: {
       width: ScreenWidth,
@@ -127,16 +92,24 @@ export default function VideoList(props) {
       marginTop: 5,
     },
   });
+  
   return (
     <FlatList
+      ref={ref}
+      ListHeaderComponent={()=>{
+        if (header) return (<VideoPlayerInfo/>)
+        return(<View></View>)
+      }}
       style={styles.videoList}
+      bounces={false}
       data={data}
       renderItem={({item}) => (
-        <View style={styles.videoItem}>
+        <View >
+          <TouchableOpacity style={styles.videoItem} onPress= {()=>  navigation.navigate('VideoPlayer', item)}> 
           <View style={styles.videoThumb}>
             <Image
               style={styles.high}
-              source={{uri: item.snippet.thumbnails.high.url}}
+              source={{uri: item.snippet?.thumbnails?.high?.url}}
             />
             <Text
               // eslint-disable-next-line react-native/no-inline-styles
@@ -151,7 +124,7 @@ export default function VideoList(props) {
                 bottom: 10,
               }}>
               {' '}
-              {parseDuration(item.contentDetails.duration)}
+              {parseDuration(item.contentDetails?.duration)}
             </Text>
           </View>
           <View style={styles.describe}>
@@ -166,18 +139,18 @@ export default function VideoList(props) {
                 style={{fontWeight: '500'}}
                 numberOfLines={2}
                 ellipsizeMode="tail">
-                {item.snippet.title}
+                {item.snippet?.title}
               </Text>
               <View style={{flexDirection: 'row', marginTop: 5}}>
                 <Text style={{color: '#484848', fontSize: 12}}>
-                  {' '}
-                  {item.snippet.channelTitle} ·{' '}
-                  {ConvertView(item.statistics.viewCount)} ·{' '}
-                  {ConvertTime(item.snippet.publishedAt)}
+                  {item.snippet?.channelTitle} ·{' '}
+                  {item.statistics?.viewCount ? ConvertCount(item.statistics?.viewCount)+ " lượt xem · ":""}
+                  {ConvertTime(item.snippet?.publishedAt||"")}
                 </Text>
               </View>
             </View>
           </View>
+            </TouchableOpacity> 
         </View>
       )}
     />
