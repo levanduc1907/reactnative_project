@@ -1,5 +1,5 @@
 import {ScreenWidth} from '@rneui/base';
-import React, {useEffect, useState,useRef} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -13,11 +13,10 @@ import {
 import VideoPlayerInfo from './VideoPlayer_info.js';
 import {Directions} from 'react-native-gesture-handler';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
-import { ConvertCount, ConvertTime } from '../components/convert_data';
-
+import {ConvertCount, ConvertTime} from '../components/convert_data';
 
 function parseDuration(duration) {
-  var matches = duration?.match(/[0-9]+[HMSD]/g)|| [];
+  var matches = duration?.match(/[0-9]+[HMSD]/g) || [];
   var d, h, m, s;
   matches.forEach(function (part) {
     var unit = part.charAt(part.length - 1);
@@ -50,8 +49,8 @@ function parseDuration(duration) {
   );
 }
 
-export default function VideoList(props,) {
-  const {data,header} = props;
+export default function VideoList(props) {
+  const {data, header} = props;
   const ref = React.useRef();
   const navigation = useNavigation();
   const styles = StyleSheet.create({
@@ -92,65 +91,70 @@ export default function VideoList(props,) {
       marginTop: 5,
     },
   });
-  
+
   return (
     <FlatList
       ref={ref}
-      ListHeaderComponent={()=>{
-        if (header) return (<VideoPlayerInfo/>)
-        return(<View></View>)
+      ListHeaderComponent={() => {
+        if (header) return <VideoPlayerInfo />;
+        return <View></View>;
       }}
       style={styles.videoList}
       bounces={false}
       data={data}
       renderItem={({item}) => (
-        <View >
-          <TouchableOpacity style={styles.videoItem} onPress= {()=>  navigation.navigate('VideoPlayer', item)}> 
-          <View style={styles.videoThumb}>
-            <Image
-              style={styles.high}
-              source={{uri: item.snippet?.thumbnails?.high?.url}}
-            />
-            <Text
-              // eslint-disable-next-line react-native/no-inline-styles
-              style={{
-                color: '#fff',
-                backgroundColor: '#000',
-                position: 'absolute',
-                fontWeight: 'bold',
-                fontFamily: 'ArialMT',
-                fontSize: 13,
-                right: 15,
-                bottom: 10,
-              }}>
-              {' '}
-              {parseDuration(item.contentDetails?.duration)}
-            </Text>
-          </View>
-          <View style={styles.describe}>
-            <Image
-              style={styles.channelImg}
-              source={{
-                uri: 'https://yt3.ggpht.com/9v791aXgd4UOgHOVAmwkoq77QplNF_NvZRS7O6hKmMtRT15W6iWXSXfDNihTkQOqIaeU-joNmg=s48-c-k-c0x00ffffff-no-rj',
-              }}
-            />
-            <View style={{width: ScreenWidth * 0.8}}>
+        <View>
+          <TouchableOpacity
+            style={styles.videoItem}
+            onPress={() => navigation.navigate('VideoPlayer', item)}>
+            <View style={styles.videoThumb}>
+              <Image
+                style={styles.high}
+                source={{uri: item.snippet?.thumbnails?.high?.url}}
+              />
               <Text
-                style={{fontWeight: '500'}}
-                numberOfLines={2}
-                ellipsizeMode="tail">
-                {item.snippet?.title}
+                // eslint-disable-next-line react-native/no-inline-styles
+                style={{
+                  color: '#fff',
+                  backgroundColor: '#000',
+                  position: 'absolute',
+                  fontWeight: 'bold',
+                  fontFamily: 'ArialMT',
+                  fontSize: 13,
+                  right: 15,
+                  bottom: 10,
+                }}>
+                {' '}
+                {parseDuration(item.contentDetails?.duration)}
               </Text>
-              <View style={{flexDirection: 'row', marginTop: 5}}>
-                <Text style={{color: '#484848', fontSize: 12}}>
-                  {item.snippet?.channelTitle} ·{' '}
-                  {item.statistics?.viewCount ? ConvertCount(item.statistics?.viewCount)+ " lượt xem · ":""}
-                  {ConvertTime(item.snippet?.publishedAt||"")}
+            </View>
+            <View style={styles.describe}>
+              <Image
+                style={styles.channelImg}
+                source={{
+                  uri: 'https://yt3.ggpht.com/9v791aXgd4UOgHOVAmwkoq77QplNF_NvZRS7O6hKmMtRT15W6iWXSXfDNihTkQOqIaeU-joNmg=s48-c-k-c0x00ffffff-no-rj',
+                }}
+              />
+              <View style={{width: ScreenWidth * 0.8}}>
+                <Text
+                  style={{fontWeight: '500'}}
+                  numberOfLines={2}
+                  ellipsizeMode="tail">
+                  {item.snippet?.title}
                 </Text>
+                <View style={{flexDirection: 'row', marginTop: 5}}>
+                  <Text style={{color: '#484848', fontSize: 12}}>
+                    {item.snippet?.channelTitle} ·{' '}
+                    {item.statistics?.viewCount
+                      ? ConvertCount(item.statistics?.viewCount) +
+                        ' lượt xem · '
+                      : ''}
+                    {ConvertTime(item.snippet?.publishedAt || '')}
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
-            </TouchableOpacity> 
+          </TouchableOpacity>
         </View>
       )}
     />

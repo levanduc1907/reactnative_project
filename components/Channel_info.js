@@ -11,6 +11,7 @@ import {
     Button,
     TouchableOpacity,
 } from 'react-native';
+import { APIKEY } from '../assets/APIkey';
 import { ConvertSub } from './convert_data';
 
 
@@ -24,7 +25,7 @@ export default function ChannelInfo(props) {
           const response = await fetch(
             'https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id='
              + channelId+
-            '&key=AIzaSyDDeetQzqlsCvvTyBrdLrkqqZMPuKgs2nI',
+            '&key=' + APIKEY,
           );
           const json = await response.json();
           setChannel(json.items[0] || {});
@@ -58,14 +59,14 @@ export default function ChannelInfo(props) {
                     borderRadius: 15,
                     marginRight: 10,
                 }}
-                source={{ uri: channel.snippet?.thumbnails?.high.url }}
+                source={{ uri: channel?.snippet?.thumbnails?.high.url }}
             />
             <View>
                 <Text
                     style={{ fontWeight: '500', fontSize: 14 }}
                     numberOfLines={1}
                     ellipsizeMode="tail">
-                    {channel.snippet?.title}
+                    {channel?.snippet?.title}
                 </Text>
                 <Text
                     style={{
@@ -73,7 +74,7 @@ export default function ChannelInfo(props) {
                         marginTop: 2,
                         color: '#484848',
                     }}>
-                    {ConvertSub(channel.statistics?.subscriberCount)} người đăng kí{' '}
+                    {ConvertSub(channel?.statistics?.subscriberCount)} người đăng kí{' '}
                 </Text>
             </View>
             <View style={{ flex: 1 }}></View>

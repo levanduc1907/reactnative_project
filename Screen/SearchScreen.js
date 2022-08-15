@@ -13,6 +13,7 @@ import {TextInput} from 'react-native-gesture-handler';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {Button} from '@rneui/base';
 import VideoList from '../components/VideoList';
+import {APIKEY} from '../assets/APIkey';
 
 const styles = StyleSheet.create({
   input: {
@@ -37,7 +38,7 @@ export function SearchResult({route, navigation}) {
       const response = await fetch(
         'https://youtube.googleapis.com/youtube/v3/search?part=id&maxResults=25&q=' +
           text +
-          '&regionCode=VN&key=AIzaSyCDYkYx_FqApFnNhcmwFDjasu5KRnVVGd0',
+          '&regionCode=VN&key=' +APIKEY,
       );
       const json = await response.json();
       return json.items;
@@ -59,7 +60,7 @@ export function SearchResult({route, navigation}) {
       const response = await fetch(
         'https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=' +
           idList +
-          '&key=AIzaSyDDeetQzqlsCvvTyBrdLrkqqZMPuKgs2nI',
+          '&key=' + APIKEY,
       );
       const json = await response.json();
       setVideos(json.items);

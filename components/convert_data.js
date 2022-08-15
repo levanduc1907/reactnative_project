@@ -61,7 +61,8 @@ export function ConvertCount(Count) {
       .map(d => {
         return parseInt(d);
       });
-    const pTime = new Date(pYear, pMonth - 1, pDay, pHour, pMinute, pSecond);
+    const pTime = new Date(Date.UTC(pYear, pMonth - 1, pDay, pHour, pMinute, pSecond));
+    console.log("today",pTime +" "+Current )
     const Subtime = ((Current.getTime() - pTime.getTime()) / 1000).toFixed();
     if (Subtime < 60) {
       return Subtime.toString() + ' giây trước';

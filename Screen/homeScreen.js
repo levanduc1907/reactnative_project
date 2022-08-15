@@ -1,5 +1,6 @@
 import {ScreenWidth} from '@rneui/base';
 import React, {useEffect, useState} from 'react';
+import { APIKEY } from '../assets/APIkey';
 import {
   FlatList,
   StyleSheet,
@@ -14,6 +15,7 @@ import Header from '../components/header';
 import TouchableOpacity from 'react-native-gesture-handler';
 import {Button} from 'react-native-paper';
 import VideoList from '../components/VideoList';
+import Skeleton from 'react-loading-skeleton';
 
 function HomeScreen({navigation}) {
   const [data, setData] = useState([]);
@@ -21,7 +23,7 @@ function HomeScreen({navigation}) {
   const getVideoList = async () => {
     try {
       const response = await fetch(
-        'https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=15&regionCode=US&key=AIzaSyDDeetQzqlsCvvTyBrdLrkqqZMPuKgs2nI',
+        'https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=15&regionCode=US&key=' + APIKEY,
       );
       const json = await response.json();
       setData(json.items);

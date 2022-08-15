@@ -8,7 +8,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeScreen from './Screen/HomeScreen';
 import {SearchScreen, SearchResult} from './Screen/SearchScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Header from './components/header';
 import VideoPlayer from './Screen/VideoPlayer';
 function ShortScreen() {
   return (
@@ -69,6 +68,7 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
+
     <SafeAreaView style={{flex: 1}}>
       <NavigationContainer>
         <Tab.Navigator
@@ -88,7 +88,7 @@ export default function App() {
               return <Icon name={iconname} size={30} color="#900" />;
             },
           })}>
-          <Tab.Screen name="HomeStack" component={HomeStackScreen} />
+          <Tab.Screen name="HomeStack"  component={HomeStackScreen} />
           <Tab.Screen name="Short" component={ShortScreen} />
 
           <Tab.Screen name="Subcribe" component={SubscribeScreen} />
@@ -96,5 +96,6 @@ export default function App() {
         </Tab.Navigator>
       </NavigationContainer>
     </SafeAreaView>
+  
   );
 }
