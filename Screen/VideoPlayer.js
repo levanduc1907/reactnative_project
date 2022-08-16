@@ -14,6 +14,8 @@ import {
   ScrollView,
   Button,
   TouchableOpacity,
+  Dimensions,
+  InteractionManager,
 } from "react-native";
 import {
   BottomSheetModal,
@@ -23,13 +25,27 @@ import YoutubePlayer from "react-native-youtube-iframe";
 import SuggestVideo from "../components/SuggestVideo";
 import CommentList from "../components/CommentList";
 import HeaderSheet from "../components/HeaderSheet";
-import { addDot, ConvertCount, getMD, getYear } from "../components/convert_data";
+import {
+  addDot,
+  ConvertCount,
+  getMD,
+  getYear,
+} from "../components/convert_data";
 export const DataContext = createContext();
 export const SheetContext = createContext();
+
 const status = {
   detailComment: "",
 };
 export default function VideoPlayer({ navigation, route }) {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const interactionPromise = InteractionManager.runAfterInteractions(() =>
+      setLoading(false)
+    );
+    return () => interactionPromise.cancel();
+  }, []);
+
   const item = route.params;
   const bottomSheetModalRef = React.useRef();
   const styles = StyleSheet.create({
@@ -57,7 +73,13 @@ export default function VideoPlayer({ navigation, route }) {
     },
   });
   // variables
-  const snapPoints = useMemo(() => ["69%", "100%"], []);
+  const windowWidth = Dimensions.get("window").width;
+  const windowHeight = Dimensions.get("window").height;
+  const sheetHeight = ((windowHeight - 245) / windowHeight) * 100;
+  const snapPoints = useMemo(
+    () => [sheetHeight.toFixed(0).toString() + "%", "100%"],
+    []
+  );
 
   // callbacks
   const handlePresentModalPress = useCallback(() => {
@@ -73,103 +95,100 @@ export default function VideoPlayer({ navigation, route }) {
     setSheetSeason("comment");
     handlePresentModalPress();
   });
-  const handlePresentDescriptionPress = useCallback(()=>{
+  const handlePresentDescriptionPress = useCallback(() => {
     setSheetSeason("des");
     handlePresentModalPress();
-  })
+  });
   const [sheet, setSheet] = useState();
   const [sheetSeason, setSheetSeason] = useState("comment");
-  
+
   const value = {
     item,
     handlePresentCommentPress,
     handlePresentDescriptionPress,
-    handleCloseModalPress
+    handleCloseModalPress,
   };
-
+  if (loading) return <View style={{ backgroundColor: "#000", flex: 1 }} />;
   return (
     <SheetContext.Provider value={[sheet, setSheet]}>
       <DataContext.Provider value={value}>
         <BottomSheetModalProvider>
           <View style={{ flex: 1, backgroundColor: "#fff" }}>
-            <YoutubePlayer height={230} play={true} videoId={item.id} />
+            <YoutubePlayer height={220} play={true} videoId={item.id} />
 
             <SuggestVideo id={item.id} />
             <BottomSheetModal
               ref={bottomSheetModalRef}
               index={0}
               snapPoints={snapPoints}
-              onChange={handleSheetChanges}
-            >
-              
+              onChange={handleSheetChanges}>
               <View style={styles.contentContainer}>
-                {(sheetSeason=="des")
-                  ? <View>
-                      <HeaderSheet title="Nội dung mô tả"/>
-                      <ScrollView>
-                        <Text
-                          style={{
-                            padding:15,
-                            fontSize:16,
-                            fontWeight:"bold"
-                          }}
-                        >
-                          {item.snippet.title}
-                        </Text>
-                        <View
-                          style={{
-                            flexDirection:"row",
-                            justifyContent:"space-between",
-                            paddingRight:15,
-                            paddingLeft:15,
-                            marginLeft:15,
-                            marginRight:15,
-                            borderBottomColor: "#d8d8d8",
-                            borderBottomWidth: 0.5,
-                            paddingBottom:10
-                          }}
-                        >
+                {sheetSeason == "des" ? (
+                  <View>
+                    <HeaderSheet title="Nội dung mô tả" />
+                    <ScrollView>
+                      <Text
+                        style={{
+                          padding: 15,
+                          fontSize: 16,
+                          fontWeight: "bold",
+                        }}>
+                        {item.snippet.title}
+                      </Text>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          paddingRight: 15,
+                          paddingLeft: 15,
+                          marginLeft: 15,
+                          marginRight: 15,
+                          borderBottomColor: "#d8d8d8",
+                          borderBottomWidth: 0.5,
+                          paddingBottom: 10,
+                        }}>
+                        {[
                           {
-                            [
-                              {top:ConvertCount(item.statistics?.likeCount), bottom:"lượt thích"},
-                              {top:addDot(item.statistics?.viewCount),bottom:"luot xem"},
-                              {top:getMD(item.snippet?.publishedAt),bottom:getYear(item.snippet?.publishedAt)}
-                            ].map((box)=>(
-                              <View
-                                style={{alignItems:"center"}}
-                              >
-                                <Text
-                                  style={{
-                                    fontSize:16,
-                                    fontWeight:"bold",
-                                    marginBottom:5
-                                  }}
-                                >
-                                  {box.top}  
-                                </Text>
-                                <Text
-                                  style={{color:"#484848"}}
-                                >
-                                  {box.bottom}
-                                </Text>
-                              </View>
-                            ))
-                          }
-                          
-                        </View>
-                        <Text
-                          style={{
-                            margin:15,
-                            marginBottom:50
-                          }}
-                        >
-                            {item.snippet?.description}
-                          </Text>
-                      </ScrollView>
-                    </View>
-                  : <CommentList data={sheet?.data}></CommentList>
-                }
-                
+                            top: ConvertCount(item.statistics?.likeCount),
+                            bottom: "Lượt thích",
+                          },
+                          {
+                            top: addDot(item.statistics?.viewCount),
+                            bottom: "Lượt xem",
+                          },
+                          {
+                            top: getMD(item.snippet?.publishedAt),
+                            bottom: getYear(item.snippet?.publishedAt),
+                          },
+                        ].map((box, index) => (
+                          <View key={index} style={{ alignItems: "center" }}>
+                            <Text
+                              style={{
+                                fontSize: 16,
+                                fontWeight: "bold",
+                                marginBottom: 5,
+                              }}>
+                              {box.top}
+                            </Text>
+                            <Text style={{ color: "#484848" }}>
+                              {box.bottom}
+                            </Text>
+                          </View>
+                        ))}
+                      </View>
+                      <Text
+                        style={{
+                          margin: 15,
+                          marginBottom: 50,
+                          fontSize: 12,
+                        }}>
+                        {item.snippet?.description}
+                      </Text>
+                    </ScrollView>
+                  </View>
+                ) : (
+                  <CommentList data={sheet?.data}></CommentList>
+                )}
               </View>
             </BottomSheetModal>
           </View>

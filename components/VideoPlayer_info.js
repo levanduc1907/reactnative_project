@@ -40,12 +40,13 @@ export default function VideoPlayerInfo() {
       style={{
         backgroundColor: '#fff',
         borderBottomColor: '#d8d8d8',
-        borderBottomWidth: 8,
+        borderBottomWidth: 8
       }}>
 
       <TouchableOpacity onPress={value.handlePresentDescriptionPress}>
         <Text
           style={{
+            paddingTop:10,
             marginLeft: 10,
             fontSize: 16,
             fontWeight: '500',

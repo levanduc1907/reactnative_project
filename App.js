@@ -3,12 +3,21 @@
 import * as React from 'react';
 import {Text, View, ScrollView, SafeAreaView} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs/';
-import {NavigationContainer} from '@react-navigation/native';
+import {getFocusedRouteNameFromRoute, NavigationContainer} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeScreen from './Screen/HomeScreen';
 import {SearchScreen, SearchResult} from './Screen/SearchScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import VideoPlayer from './Screen/VideoPlayer';
+import Channel from './Screen/Channel';
+
+function checkDisplayBottomTab(route){
+  const routeName = getFocusedRouteNameFromRoute(route);
+  console.log('routeName', routeName)
+  if(routeName==='VideoPlayer') return {display:'none'}
+  return {};
+}
+
 function ShortScreen() {
   return (
     <ScrollView>
@@ -35,7 +44,10 @@ function LibraryScreen() {
 const HomeStack = createNativeStackNavigator();
 function HomeStackScreen() {
   return (
-    <HomeStack.Navigator screenOptions={{headerShown: false}}>
+    <HomeStack.Navigator 
+      screenOptions={({route})=>({
+        headerShown: false
+        })}>
       <HomeStack.Screen name="Home" component={HomeScreen}></HomeStack.Screen>
       <HomeStack.Screen
         name="Search"
@@ -45,25 +57,15 @@ function HomeStackScreen() {
         component={SearchResult}></HomeStack.Screen>
       <HomeStack.Screen
         name="VideoPlayer"
-        component={VideoPlayer}></HomeStack.Screen>
+        component={VideoPlayer}
+      ></HomeStack.Screen>
+      <HomeStack.Screen
+        name="Channel"
+        component={Channel}
+      ></HomeStack.Screen>
 </HomeStack.Navigator>
   );
 }
-HomeStack.navigationOptions = ({ navigation }) => {
-
-  let tabBarVisible = true;
-
-  let routeName = navigation.state.routes[navigation.state.index].routeName
-
-  if ( routeName == 'VideoPlayer' ) {
-      tabBarVisible = false
-  }
-
-  return {
-      tabBarVisible,
-  }
-}
-
 const Tab = createBottomTabNavigator();
 
 export default function App() {
@@ -88,7 +90,11 @@ export default function App() {
               return <Icon name={iconname} size={30} color="#900" />;
             },
           })}>
-          <Tab.Screen name="HomeStack"  component={HomeStackScreen} />
+          <Tab.Screen name="HomeStack" 
+            options={({route})=>({
+            tabBarStyle: checkDisplayBottomTab(route)
+            })} 
+          component={HomeStackScreen} />
           <Tab.Screen name="Short" component={ShortScreen} />
 
           <Tab.Screen name="Subcribe" component={SubscribeScreen} />

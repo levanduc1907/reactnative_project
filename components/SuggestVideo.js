@@ -60,7 +60,7 @@ function SuggestVideo(props) {
   };
   useEffect(() => {
     getSuggest();
-  }, []);
+  }, [id]);
   if (!loading) 
   return (
     <VideoList data={suggest} header={(true)}></VideoList>    

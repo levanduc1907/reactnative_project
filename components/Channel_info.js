@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { isLoaded } from 'expo-font';
 import React, { useEffect, useState, useCallback } from 'react';
 import {
@@ -18,8 +19,8 @@ import { ConvertSub } from './convert_data';
 export default function ChannelInfo(props) {
     const [channel, setChannel] = useState();
     const [loading, setLoading] = useState(true);
-    const  channelId = props.channel
-    
+    const  channelId = props?.channel
+    const navigation = useNavigation();
     const getChannel = async () => {
         try {
             console.log("tryd", channelId);
@@ -44,7 +45,7 @@ export default function ChannelInfo(props) {
  if(!loading) 
    
     return (
-        <View
+        <TouchableOpacity onPress={()=>navigation.navigate('Channel', {channelId})}
             style={{
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -87,6 +88,6 @@ export default function ChannelInfo(props) {
                 }}>
                 ĐĂNG KÍ
             </Text>
-        </View>
+        </TouchableOpacity>
     )
 }

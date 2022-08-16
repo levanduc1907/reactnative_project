@@ -17,7 +17,6 @@ function CommentList(props) {
   const navigation = useNavigation();
   const data = props.data;
   const ref = React.useRef();
-  console.log("ffin", data);
   return (
     <View style={{ backgroundColor: "#fff", flex: 1 }}>
       <HeaderSheet title="Bình luận" />
@@ -49,7 +48,7 @@ function CommentList(props) {
           ></TextInput>
         </View>
         {data?.map((item) => (
-          <View
+          <View key={item.id}
             style={{
               flexDirection: "row",
               padding: 10,
