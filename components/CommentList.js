@@ -27,8 +27,7 @@ function CommentList(props) {
             padding: 10,
             borderBottomColor: "#d8d8d8",
             borderBottomWidth: 0.5,
-          }}
-        >
+          }}>
           <Image
             source={{
               uri: "https://yt3.ggpht.com/9v791aXgd4UOgHOVAmwkoq77QplNF_NvZRS7O6hKmMtRT15W6iWXSXfDNihTkQOqIaeU-joNmg=s48-c-k-c0x00ffffff-no-rj",
@@ -44,17 +43,16 @@ function CommentList(props) {
           />
           <TextInput
             placeholder="Viết bình luận..."
-            placeholderTextColor="#484848"
-          ></TextInput>
+            placeholderTextColor="#484848"></TextInput>
         </View>
         {data?.map((item) => (
-          <View key={item.id}
+          <View
+            key={item.id}
             style={{
               flexDirection: "row",
               padding: 10,
               flex: 1,
-            }}
-          >
+            }}>
             <Image
               source={{
                 uri: item.snippet.topLevelComment.snippet.authorProfileImageUrl,
@@ -72,89 +70,94 @@ function CommentList(props) {
               style={{
                 marginRight: 15,
                 flex: 1,
-              }}
-            >
-              <Text
-                style={{
-                  color: "#484848",
-                  fontSize: 12,
-                  marginBottom: 5,
-                }}
-              >
-                {item?.snippet.topLevelComment.snippet?.authorDisplayName} ·{" "}
-                {ConvertTime(item.snippet.topLevelComment.snippet.publishedAt)}
-              </Text>
+              }}>
               <TouchableOpacity
-                onPress={() => navigation.navigate("commentDetail", { item })}
-              >
+                onPress={() => navigation.navigate("commentDetail", { item })}>
+                <Text
+                  style={{
+                    color: "#484848",
+                    fontSize: 12,
+                    marginBottom: 5,
+                  }}>
+                  {item?.snippet.topLevelComment.snippet?.authorDisplayName} ·{" "}
+                  {ConvertTime(
+                    item.snippet.topLevelComment.snippet.publishedAt
+                  )}
+                </Text>
+
                 <Text numberOfLines={4} ellipsizeMode="tail">
                   {item?.snippet.topLevelComment.snippet?.textOriginal}
                 </Text>
-              </TouchableOpacity>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginTop: 10,
-                }}
-              >
-                <TouchableOpacity>
-                  <Image
-                    style={{
-                      height: 12,
-                      width: 12,
-                      resizeMode: "contain",
-                      marginRight: 5,
-                    }}
-                    source={require("../assets/img/like_icon.png")}
-                  />
-                </TouchableOpacity>
-                <Text
+
+                <View
                   style={{
-                    fontSize: 12,
-                    marginRight: 5,
-                    width: 40,
-                    textAlign: "left",
-                    overflow: "visible",
-                  }}
-                >
-                  {ConvertCount(
-                    item.snippet.topLevelComment.snippet?.likeCount
-                  )}
-                </Text>
-                <TouchableOpacity>
-                  <Image
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginTop: 10,
+                  }}>
+                  <TouchableOpacity>
+                    <Image
+                      style={{
+                        height: 12,
+                        width: 12,
+                        resizeMode: "contain",
+                        marginRight: 5,
+                      }}
+                      source={require("../assets/img/like_icon.png")}
+                    />
+                  </TouchableOpacity>
+                  <Text
                     style={{
-                      height: 12,
-                      width: 12,
-                      resizeMode: "contain",
-                      transform: [{ rotate: "180deg" }],
-                    }}
-                    source={require("../assets/img/like_icon.png")}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <Image
+                      fontSize: 12,
+                      marginRight: 5,
+                      width: 40,
+                      textAlign: "left",
+                      overflow: "visible",
+                    }}>
+                    {ConvertCount(
+                      item.snippet.topLevelComment.snippet?.likeCount
+                    )}
+                  </Text>
+                  <TouchableOpacity>
+                    <Image
+                      style={{
+                        height: 12,
+                        width: 12,
+                        resizeMode: "contain",
+                        transform: [{ rotate: "180deg" }],
+                      }}
+                      source={require("../assets/img/like_icon.png")}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Image
+                      style={{
+                        height: 16,
+                        width: 12,
+                        resizeMode: "contain",
+                        marginLeft: 40,
+                      }}
+                      source={require("../assets/img/reply.png")}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </TouchableOpacity>
+              {item.snippet.totalReplyCount ? (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("commentDetail", { item })
+                  }>
+                  <Text
                     style={{
-                      height: 16,
-                      width: 12,
-                      resizeMode: "contain",
-                      marginLeft: 40,
-                    }}
-                    source={require("../assets/img/reply.png")}
-                  />
+                      fontSize: 13,
+                      color: "#115cc2",
+                      fontWeight: "500",
+                      marginTop: 20,
+                    }}>
+                    {ConvertCount(item.snippet.totalReplyCount)} PHẢN HỒI
+                  </Text>
                 </TouchableOpacity>
-              </View>
-              <Text
-                style={{
-                  fontSize: 13,
-                  color: "#115cc2",
-                  fontWeight: "500",
-                  marginTop: 20,
-                }}
-              >
-                {ConvertCount(item.snippet.totalReplyCount)} PHẢN HỒI
-              </Text>
+              ) : null}
             </View>
           </View>
         ))}
@@ -169,15 +172,13 @@ function CommentDetail({ route, navigation }) {
       <View
         style={{
           flexDirection: "row",
-        }}
-      >
+        }}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={{
             paddingLeft: 15,
             paddingRight: 5,
-          }}
-        >
+          }}>
           <Image
             style={{
               height: 16,
@@ -190,8 +191,7 @@ function CommentDetail({ route, navigation }) {
         <View
           style={{
             flex: 1,
-          }}
-        >
+          }}>
           <HeaderSheet title="Trả lời" />
         </View>
       </View>
@@ -202,8 +202,7 @@ function CommentDetail({ route, navigation }) {
             flexDirection: "row",
             padding: 10,
             backgroundColor: "#f6f6f6",
-          }}
-        >
+          }}>
           <Image
             source={{
               uri: item.snippet.topLevelComment.snippet.authorProfileImageUrl,
@@ -221,15 +220,13 @@ function CommentDetail({ route, navigation }) {
             style={{
               marginRight: 15,
               flex: 1,
-            }}
-          >
+            }}>
             <Text
               style={{
                 color: "#484848",
                 fontSize: 12,
                 marginBottom: 5,
-              }}
-            >
+              }}>
               {item?.snippet.topLevelComment.snippet?.authorDisplayName} ·{" "}
               {ConvertTime(item.snippet.topLevelComment.snippet.publishedAt)}
             </Text>
@@ -241,8 +238,7 @@ function CommentDetail({ route, navigation }) {
                 flexDirection: "row",
                 alignItems: "center",
                 marginTop: 10,
-              }}
-            >
+              }}>
               <TouchableOpacity>
                 <Image
                   style={{
@@ -261,8 +257,7 @@ function CommentDetail({ route, navigation }) {
                   width: 40,
                   textAlign: "left",
                   overflow: "visible",
-                }}
-              >
+                }}>
                 {ConvertCount(item.snippet.topLevelComment.snippet?.likeCount)}
               </Text>
               <TouchableOpacity>
@@ -289,47 +284,42 @@ function CommentDetail({ route, navigation }) {
               </TouchableOpacity>
             </View>
           </View>
-          
         </View>
         <View
-              style={{
-                flexDirection: "row",
-                padding: 10,
-                borderBottomColor: "#d8d8d8",
-                borderBottomWidth: 0.5,
-              }}
-            >
-              <Image
-                source={{
-                  uri: "https://yt3.ggpht.com/9v791aXgd4UOgHOVAmwkoq77QplNF_NvZRS7O6hKmMtRT15W6iWXSXfDNihTkQOqIaeU-joNmg=s48-c-k-c0x00ffffff-no-rj",
-                }}
-                style={{
-                  height: 26,
-                  width: 26,
-                  resizeMode: "contain",
-                  borderRadius: 13,
-                  marginRight: 15,
-                  marginLeft: 40,
-                }}
-              />
-              <TextInput
-                placeholder="Phản hồi..."
-                placeholderTextColor="#484848"
-              ></TextInput>
-            </View>
+          style={{
+            flexDirection: "row",
+            padding: 10,
+            borderBottomColor: "#d8d8d8",
+            borderBottomWidth: 0.5,
+          }}>
+          <Image
+            source={{
+              uri: "https://yt3.ggpht.com/9v791aXgd4UOgHOVAmwkoq77QplNF_NvZRS7O6hKmMtRT15W6iWXSXfDNihTkQOqIaeU-joNmg=s48-c-k-c0x00ffffff-no-rj",
+            }}
+            style={{
+              height: 26,
+              width: 26,
+              resizeMode: "contain",
+              borderRadius: 13,
+              marginRight: 15,
+              marginLeft: 40,
+            }}
+          />
+          <TextInput
+            placeholder="Phản hồi..."
+            placeholderTextColor="#484848"></TextInput>
+        </View>
         <View
           style={{
             paddingLeft: 35,
-          }}
-        >
-          
-          {item?.replies?.comments.map((reply) => (
+          }}>
+          {item?.replies?.comments.map((reply, index) => (
             <View
+              key={index}
               style={{
                 flexDirection: "row",
                 padding: 10,
-              }}
-            >
+              }}>
               <Image
                 source={{
                   uri: reply.snippet.authorProfileImageUrl,
@@ -347,15 +337,13 @@ function CommentDetail({ route, navigation }) {
                 style={{
                   marginRight: 15,
                   flex: 1,
-                }}
-              >
+                }}>
                 <Text
                   style={{
                     color: "#484848",
                     fontSize: 12,
                     marginBottom: 5,
-                  }}
-                >
+                  }}>
                   {reply.snippet?.authorDisplayName} ·{" "}
                   {ConvertTime(reply.snippet.publishedAt)}
                 </Text>
@@ -367,8 +355,7 @@ function CommentDetail({ route, navigation }) {
                     flexDirection: "row",
                     alignItems: "center",
                     marginTop: 10,
-                  }}
-                >
+                  }}>
                   <TouchableOpacity>
                     <Image
                       style={{
@@ -387,8 +374,7 @@ function CommentDetail({ route, navigation }) {
                       width: 40,
                       textAlign: "left",
                       overflow: "visible",
-                    }}
-                  >
+                    }}>
                     {ConvertCount(reply.snippet?.likeCount)}
                   </Text>
                   <TouchableOpacity>
@@ -418,8 +404,7 @@ export default function CommentListScreen(props) {
     <Tab.Navigator
       screenOptions={() => ({
         headerShown: false,
-      })}
-    >
+      })}>
       <Tab.Screen
         name="commentList"
         children={() => <CommentList data={data} />}
