@@ -91,7 +91,7 @@ export default function ChannelInfo(props) {
             fontWeight: "600",
             marginRight: 10,
           }}>
-          ĐĂNG KÍ
+          ĐĂNG KÝ
         </Text>
       </TouchableOpacity>
     );

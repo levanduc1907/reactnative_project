@@ -6,6 +6,7 @@ import { ConvertTime, ConvertCount } from "./convert_data";
 import { parseDuration } from "./convert_data";
 import { useNavigation } from "@react-navigation/native";
 import { APIKEY } from "../assets/APIkey";
+import Skeleton from "react-loading-skeleton";
 const ScreenWidth = Dimensions.get("window").width;
 
 export default function VideoPreview(props) {
@@ -44,7 +45,9 @@ export default function VideoPreview(props) {
         <View style={styles.videoThumb}>
           <Image
             style={styles.high}
-            source={{ uri: item?.snippet?.thumbnails?.high?.url }}
+            source={{
+              uri: item?.snippet?.thumbnails?.high?.url,
+            }}
           />
           <Text
             // eslint-disable-next-line react-native/no-inline-styles

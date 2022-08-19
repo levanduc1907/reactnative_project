@@ -19,6 +19,14 @@ import VideoPreview from "./VideoPreview.js";
 export default function VideoList(props) {
   const { data, header } = props;
   const ref = React.useRef();
+  useEffect(() => {
+    if (ref.current) {
+      setTimeout(function () {
+        ref.current.scrollToOffset({ offset: 0, animated: false });
+      }, 500);
+    }
+  });
+
   return (
     <FlatList
       ref={ref}

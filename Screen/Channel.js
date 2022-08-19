@@ -6,6 +6,8 @@ import { TabView, TabBar } from "react-native-tab-view";
 import { Dimensions } from "react-native";
 import { Title } from "react-native-paper";
 import ChannelHome from "../components/ChannelHome";
+import ChannelVideo from "../components/ChannelVideos";
+import Playlist from "../components/PlayList";
 
 const renderTabBar = (props) => (
   <TabBar
@@ -29,13 +31,16 @@ export default function Channel({ route, navigation }) {
       case "Home":
         return <ChannelHome channelId={Id} jumpTo={jumpTo} />;
       case "Video":
-        return <Text>Video</Text>;
+        return <ChannelVideo channelId={Id} jumpTo={jumpTo} />;
+      case "Playlist":
+        return <Playlist channelId={Id} jumpTo={jumpTo}></Playlist>;
     }
   };
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: "Home", title: "Trang chủ" },
     { key: "Video", title: "Video" },
+    { key: "Playlist", title: "Danh sách phát" },
   ]);
 
   return (

@@ -5,9 +5,10 @@ import { APIKEY } from "../assets/APIkey";
 import { Dimensions } from "react-native";
 import { ConvertCount } from "./convert_data";
 import VideoPreview from "./VideoPreview";
+import SortVideos from "./SortVideos";
+const ScreenWidth = Dimensions.get("window").width;
 export default function ChannelHome(props) {
   const channelId = props.channelId;
-  console.log(props);
   const [channel, setChannel] = useState();
   const [trailer, setTrailer] = useState();
   const [loading, setLoading] = useState(true);
@@ -22,7 +23,6 @@ export default function ChannelHome(props) {
       );
       const json = await response.json();
       setChannel(json?.items[0]);
-      console.log("aaa1", json);
       return json?.items[0].brandingSettings.channel.unsubscribedTrailer;
     } catch (error) {
       console.error(error);
@@ -32,7 +32,6 @@ export default function ChannelHome(props) {
   };
   const getTrailer = async () => {
     const id = await getChannel();
-    console.log("idd", id);
     try {
       console.log("calll");
       const response = await fetch(
@@ -42,7 +41,6 @@ export default function ChannelHome(props) {
           APIKEY
       );
       const json = await response.json();
-      console.log("aaa2", json);
       setTrailer(json.items[0]);
     } catch (error) {
       console.error(error);
@@ -58,7 +56,6 @@ export default function ChannelHome(props) {
 
   if (loading) return <Text>Loading..</Text>;
 
-  console.log("aaa3,", trailer);
   return (
     <ScrollView contentContainerStyle={{ alignItems: "center" }}>
       <Image
@@ -93,7 +90,7 @@ export default function ChannelHome(props) {
       </Text>
       <Text style={{ fontSize: 13, fontWeight: "300", marginTop: 10 }}>
         {ConvertCount(channel?.statistics.subscriberCount)} người đăng ký ·{" "}
-        {channel?.statistics.videoCount} video
+        {ConvertCount(channel?.statistics.videoCount)} video
       </Text>
       <Text
         style={{
@@ -109,6 +106,21 @@ export default function ChannelHome(props) {
         {channel?.brandingSettings.channel?.description}
       </Text>
       {trailer ? <VideoPreview video={trailer} /> : null}
+      <View
+        style={{
+          borderTopColor: "#484848",
+          borderTopWidth: 0.5,
+          width: ScreenWidth,
+        }}>
+        <Text
+          style={{
+            fontSize: 16,
+            margin: 15,
+          }}>
+          Video tải lên phổ biến
+        </Text>
+        <SortVideos channelId={channelId} sort="viewCount" />
+      </View>
     </ScrollView>
   );
 }

@@ -31,6 +31,7 @@ import {
   getMD,
   getYear,
 } from "../components/convert_data";
+import { storage } from "../App";
 export const DataContext = createContext();
 export const SheetContext = createContext();
 
@@ -45,8 +46,15 @@ export default function VideoPlayer({ navigation, route }) {
     );
     return () => interactionPromise.cancel();
   }, []);
-
+  useEffect(() => {
+    const watchedVideo = JSON.parse(storage.getString("watchedVideo"));
+    if (item.id != watchedVideo.items[0]?.id) {
+      watchedVideo.items.unshift(item);
+      storage.set("watchedVideo", JSON.stringify(watchedVideo));
+    }
+  }, []);
   const item = route.params;
+
   const bottomSheetModalRef = React.useRef();
   const styles = StyleSheet.create({
     icon: {
@@ -109,6 +117,7 @@ export default function VideoPlayer({ navigation, route }) {
     handleCloseModalPress,
   };
   if (loading) return <View style={{ backgroundColor: "#000", flex: 1 }} />;
+
   return (
     <SheetContext.Provider value={[sheet, setSheet]}>
       <DataContext.Provider value={value}>
