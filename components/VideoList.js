@@ -20,9 +20,9 @@ export default function VideoList(props) {
   const { data, header } = props;
   const ref = React.useRef();
   useEffect(() => {
-    if (ref.current) {
+    if (ref?.current) {
       setTimeout(function () {
-        ref.current.scrollToOffset({ offset: 0, animated: false });
+        ref?.current?.scrollToOffset({ offset: 0, animated: false });
       }, 500);
     }
   });
@@ -37,6 +37,7 @@ export default function VideoList(props) {
       style={{ backgroundColor: "#d8d8d8" }}
       bounces={false}
       data={data}
+      showsVerticalScrollIndicator={false}
       renderItem={({ item }) => <VideoPreview video={item} />}
     />
   );

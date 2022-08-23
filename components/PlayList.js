@@ -64,7 +64,13 @@ export default function Playlist(props) {
                     height: (ScreenWidth * 9) / 40,
                     resizeMode: "cover",
                   }}
-                  source={{ uri: item.snippet.thumbnails.high.url }}></Image>
+                  source={{
+                    uri: (
+                      item.snippet.thumbnails.high ??
+                      item.snippet.thumbnails.medium ??
+                      item.snippet.thumbnails.default
+                    ).url,
+                  }}></Image>
                 <View
                   style={{
                     backgroundColor: "rgba(42,42,42,0.8)",

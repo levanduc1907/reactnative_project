@@ -30,7 +30,7 @@ function CommentList(props) {
           }}>
           <Image
             source={{
-              uri: "https://yt3.ggpht.com/9v791aXgd4UOgHOVAmwkoq77QplNF_NvZRS7O6hKmMtRT15W6iWXSXfDNihTkQOqIaeU-joNmg=s48-c-k-c0x00ffffff-no-rj",
+              uri: "https://yt3.ggpht.com/a/default-user=s48-c-k-c0x00ffffff-no-rj",
             }}
             style={{
               height: 36,

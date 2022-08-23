@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -7,11 +7,11 @@ import {
   Image,
   ScrollView,
   Dimensions,
-} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import SearchScreen from '../Screen/SearchScreen';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
+} from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import SearchScreen from "../Screen/SearchScreen";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 
 export default function Header() {
   const navigation = useNavigation();
@@ -21,29 +21,29 @@ export default function Header() {
       style={{
         paddingTop: 5,
         height: 45,
-        backgroundColor: '#fff',
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
+        backgroundColor: "#fff",
+        flexDirection: "row",
+        justifyContent: "flex-start",
       }}>
       <Image
-        source={require('../assets/img/yt_logo_rgb_light.png')}
+        source={require("../assets/img/yt_logo_rgb_light.png")}
         // eslint-disable-next-line react-native/no-inline-styles
         style={{
           height: 30,
           width: 90,
-          resizeMode: 'contain',
+          resizeMode: "contain",
           left: 10,
         }}
       />
-      <Text style={{flex: 1}}></Text>
-      <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+      <Text style={{ flex: 1 }}></Text>
+      <TouchableOpacity onPress={() => navigation.navigate("Search")}>
         <Image
-          source={require('../assets/img/search.webp')}
+          source={require("../assets/img/search.webp")}
           // eslint-disable-next-line react-native/no-inline-styles
           style={{
             height: 26,
             width: 26,
-            resizeMode: 'contain',
+            resizeMode: "contain",
             marginRight: 15,
           }}
         />
@@ -51,13 +51,13 @@ export default function Header() {
 
       <Image
         source={{
-          uri: 'https://yt3.ggpht.com/9v791aXgd4UOgHOVAmwkoq77QplNF_NvZRS7O6hKmMtRT15W6iWXSXfDNihTkQOqIaeU-joNmg=s48-c-k-c0x00ffffff-no-rj',
+          uri: "https://yt3.ggpht.com/a/default-user=s48-c-k-c0x00ffffff-no-rj",
         }}
         // eslint-disable-next-line react-native/no-inline-styles
         style={{
           height: 26,
           width: 26,
-          resizeMode: 'contain',
+          resizeMode: "contain",
           borderRadius: 13,
           marginRight: 15,
         }}

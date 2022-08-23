@@ -10,11 +10,13 @@ export default function LibraryScreen() {
   const [savedvideo, setSavedVideo] = useMMKVObject("savedVideo");
 
   const [watchedvideo, setWatchedVideo] = useMMKVObject("watchedVideo");
-  console.log("ahaa", watchedvideo);
+
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <Header />
-      <ScrollView nestedScrollEnabled={true}>
+      <ScrollView
+        nestedScrollEnabled={true}
+        showsVerticalScrollIndicator={false}>
         <View>
           <Text
             style={{

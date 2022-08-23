@@ -20,7 +20,6 @@ import SimpleToast from "react-native-simple-toast";
 import LibraryScreen from "./Screen/Library";
 function checkDisplayBottomTab(route) {
   const routeName = getFocusedRouteNameFromRoute(route);
-  console.log("routeName", routeName);
   if (routeName === "VideoPlayer") return { display: "none" };
   return {};
 }
@@ -90,6 +89,7 @@ function HomeStackScreen() {
         component={SearchScreen}></HomeStack.Screen>
       <HomeStack.Screen
         name="SearchResult"
+        // options={{ animation: "none" }}
         component={SearchResult}></HomeStack.Screen>
       <HomeStack.Screen
         name="VideoPlayer"

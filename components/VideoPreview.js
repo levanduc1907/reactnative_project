@@ -21,8 +21,6 @@ export default function VideoPreview(props) {
           "&key=" +
           APIKEY
       );
-
-      console.log("itemem", item.snippet?.channelId);
       const json = await response.json();
       setChannelThumb(json?.items[0].snippet.thumbnails.high.url);
     } catch (error) {

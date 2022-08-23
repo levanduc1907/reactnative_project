@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import { APIKEY } from "../assets/APIkey";
@@ -21,7 +21,6 @@ export default function PlaylistDetails({ route }) {
           APIKEY
       );
       const json = await response.json();
-      console.log("okal", json);
       return json.items;
     } catch (error) {
       console.error(error);
@@ -67,9 +66,39 @@ export default function PlaylistDetails({ route }) {
           paddingTop: 5,
           alignItems: "center",
           paddingRight: 10,
+          justifyContent: "space-between",
         }}>
-        <TouchableOpacity onPress={navigation.goBack}>
-          <Text>Back</Text>
+        <TouchableOpacity
+          style={{
+            paddingLeft: 15,
+            paddingRight: 15,
+          }}
+          onPress={() => navigation.navigate("Home")}>
+          <Image
+            style={{
+              height: 20,
+              width: 20,
+              resizeMode: "contain",
+            }}
+            source={require("../assets/img/back.png")}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{
+            paddingLeft: 10,
+            paddingRight: 10,
+          }}
+          onPress={() => navigation.navigate("Search")}>
+          <Image
+            source={require("../assets/img/search.webp")}
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{
+              height: 20,
+              width: 20,
+              resizeMode: "contain",
+            }}
+          />
         </TouchableOpacity>
       </View>
       <ScrollView>

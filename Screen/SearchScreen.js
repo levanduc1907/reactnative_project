@@ -14,13 +14,16 @@ import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { Button } from "@rneui/base";
 import VideoList from "../components/VideoList";
 import { APIKEY } from "../assets/APIkey";
+import { get, set } from "react-hook-form";
 
 const styles = StyleSheet.create({
   input: {
     backgroundColor: "#e8e8e8",
     flex: 1,
     padding: 5,
-    marginRight: 10,
+    height: 30,
+    borderRadius: 3,
+    paddingEnd: 30,
   },
   backBtn: {
     height: 20,
@@ -98,6 +101,7 @@ export function SearchResult({ route, navigation }) {
             height: 30,
             backgroundColor: "#e8e8e8",
             alignContent: "center",
+            justifyContent: "center",
             padding: 5,
             flex: 1,
             marginRight: 20,
@@ -113,14 +117,49 @@ export function SearchResult({ route, navigation }) {
 }
 
 export function SearchScreen() {
-  const [text, setText] = useState();
+  const [text, setText] = useState("");
+  const [suggest, setSuggest] = useState();
   const navigation = useNavigation();
+  const getSuggest = async () => {
+    const query = text.toLocaleLowerCase().trim();
+    if (query != "")
+      try {
+        const response = await fetch(
+          `https://suggestqueries-clients6.youtube.com/complete/search?client=youtube&hl=en&gl=vn&ds=yt&client=chrome&q=${encodeURIComponent(
+            query
+          )}`,
+          {
+            headers: {
+              "X-Requested-With": "XMLHttpRequest",
+            },
+          }
+        );
+        console.log("resp", response);
+        const json = await response?.json();
 
+        console.log(json);
+        setSuggest(json[1]);
+      } catch (error) {
+        console.log("error", error);
+        setSuggest("");
+      } finally {
+      }
+  };
+  useEffect(() => {
+    setTimeout(getSuggest, 200);
+  }, [text]);
   return (
     // eslint-disable-next-line react-native/no-inline-styles
     <View style={{ backgroundColor: "#fff", flex: 1 }}>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          style={{
+            height: 50,
+            flexDirection: "row",
+            alignItems: "center",
+            backgroundColor: "#fff",
+          }}
+          onPress={() => navigation.goBack()}>
           <Image
             style={styles.backBtn}
             source={require("../assets/img/back.png")}
@@ -134,10 +173,31 @@ export function SearchScreen() {
           onChangeText={(newText) => setText(newText)}
           defaultValue={text}
           style={styles.input}
-          onSubmitEditing={() => navigation.navigate("SearchResult", { text })}
+          onSubmitEditing={() => {
+            if (text != "") navigation.navigate("SearchResult", { text });
+          }}
         />
         <TouchableOpacity
-          onPress={() => navigation.push("SearchResult", { text })}>
+          style={{
+            position: "absolute",
+            right: 50,
+          }}
+          onPress={() => {
+            setText("");
+          }}>
+          <Image
+            source={require("../assets/img/X_icon.png")}
+            style={{
+              margin: 7,
+              height: 12,
+              width: 12,
+              resizeMode: "contain",
+            }}></Image>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            if (text != "") navigation.push("SearchResult", { text });
+          }}>
           <Image
             source={require("../assets/img/search.webp")}
             // eslint-disable-next-line react-native/no-inline-styles
@@ -146,10 +206,65 @@ export function SearchScreen() {
               width: 26,
               resizeMode: "contain",
               marginRight: 15,
+              marginLeft: 10,
             }}
           />
         </TouchableOpacity>
       </View>
+      <ScrollView bounces={false}>
+        {suggest
+          ? suggest.map((item, index) => (
+              <TouchableOpacity
+                key={index}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+                onPress={() => {
+                  setText(item);
+                  navigation.navigate({
+                    name: "SearchResult",
+                    params: { text: item },
+                  });
+                }}>
+                <Image
+                  source={require("../assets/img/search.webp")}
+                  // eslint-disable-next-line react-native/no-inline-styles
+                  style={{
+                    height: 16,
+                    width: 45,
+                    resizeMode: "contain",
+                  }}
+                />
+                <Text
+                  style={{
+                    fontSize: 16,
+                    flex: 1,
+                    marginTop: 10,
+                    marginBottom: 10,
+                  }}>
+                  {item}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    setText(item);
+                  }}>
+                  <Image
+                    source={require("../assets/img/back.png")}
+                    style={{
+                      height: 16,
+                      width: 16,
+                      margin: 15,
+                      resizeMode: "contain",
+                      transform: [{ rotate: "45deg" }],
+                      marginBottom: 7,
+                      marginTop: 7,
+                    }}></Image>
+                </TouchableOpacity>
+              </TouchableOpacity>
+            ))
+          : null}
+      </ScrollView>
     </View>
   );
 }

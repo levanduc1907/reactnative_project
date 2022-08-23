@@ -39,7 +39,6 @@ export default function VideoPlayerInfo() {
   const [like, setLike] = useState(false);
   const [dislike, setDislike] = useState(false);
   const [issaved, setIsSaved] = useState(checkSavedVideo(item.id));
-  console.log("issaved", checkSavedVideo(item.id));
   const toggleLike = useCallback(() => {
     if (!like) setDislike(false);
     setLike((prev) => !prev);
@@ -104,15 +103,17 @@ export default function VideoPlayerInfo() {
       <View
         style={{
           paddingLeft: 10,
-          marginTop: 20,
+          marginTop: 10,
           flexDirection: "row",
           justifyContent: "space-around",
           paddingRight: 10,
           borderBottomColor: "#d8d8d8",
           borderBottomWidth: 1,
-          paddingBottom: 20,
+          paddingBottom: 10,
         }}>
-        <TouchableOpacity style={{ alignItems: "center" }} onPress={toggleLike}>
+        <TouchableOpacity
+          style={{ alignItems: "center", padding: 10 }}
+          onPress={toggleLike}>
           <Image
             source={
               like
@@ -126,7 +127,7 @@ export default function VideoPlayerInfo() {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={{ alignItems: "center" }}
+          style={{ alignItems: "center", padding: 10 }}
           onPress={toggleDislike}>
           <Image
             source={
@@ -143,19 +144,21 @@ export default function VideoPlayerInfo() {
             }}></Image>
           <Text style={{ fontSize: 12, fontWeight: "300" }}> Không thích</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{ alignItems: "center" }}>
+        <TouchableOpacity style={{ alignItems: "center", padding: 10 }}>
           <Image
             source={require("../assets/img/share.png")}
             style={styles.icon}></Image>
           <Text style={{ fontSize: 12, fontWeight: "300" }}> Chia sẻ </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{ alignItems: "center" }}>
+        <TouchableOpacity style={{ alignItems: "center", padding: 10 }}>
           <Image
             source={require("../assets/img/download.png")}
             style={styles.icon}></Image>
           <Text style={{ fontSize: 12, fontWeight: "300" }}> Tải xuống </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{ alignItems: "center" }} onPress={toggleSave}>
+        <TouchableOpacity
+          style={{ alignItems: "center", padding: 10 }}
+          onPress={toggleSave}>
           <Image
             source={
               issaved

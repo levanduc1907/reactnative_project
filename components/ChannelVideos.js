@@ -12,7 +12,7 @@ export default function ChannelVideo(props) {
   const channelId = props.channelId;
   const [sort, setSort] = useState(sortlist.popular);
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View
         style={{
           flexDirection: "row",

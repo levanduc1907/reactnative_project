@@ -33,7 +33,6 @@ export default function ChannelHome(props) {
   const getTrailer = async () => {
     const id = await getChannel();
     try {
-      console.log("calll");
       const response = await fetch(
         "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=" +
           id +
@@ -57,7 +56,9 @@ export default function ChannelHome(props) {
   if (loading) return <Text>Loading..</Text>;
 
   return (
-    <ScrollView contentContainerStyle={{ alignItems: "center" }}>
+    <ScrollView
+      contentContainerStyle={{ alignItems: "center" }}
+      showsVerticalScrollIndicator={false}>
       <Image
         style={{
           width: (Dimensions.get("window").width * 3.2) / 2,
@@ -105,7 +106,11 @@ export default function ChannelHome(props) {
         ellipsizeMode="tail">
         {channel?.brandingSettings.channel?.description}
       </Text>
-      {trailer ? <VideoPreview video={trailer} /> : null}
+      {trailer ? (
+        <VideoPreview video={trailer} />
+      ) : (
+        <View style={{ height: 20 }} />
+      )}
       <View
         style={{
           borderTopColor: "#484848",

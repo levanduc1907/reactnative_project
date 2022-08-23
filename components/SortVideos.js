@@ -12,7 +12,6 @@ export default function SortVideos(props) {
   const [loading, setLoading] = useState(true);
   const getVideoIdList = async () => {
     try {
-      console.log("tass", sort);
       const response = await fetch(
         "https://www.googleapis.com/youtube/v3/search?part=id&order=" +
           sort +
