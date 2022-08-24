@@ -23,7 +23,7 @@ function HomeScreen({ navigation }) {
   const getVideoList = async () => {
     try {
       const response = await fetch(
-        "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=10&regionCode=US&key=" +
+        "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=10&regionCode=VN&key=" +
           APIKEY
       );
       const json = await response.json();

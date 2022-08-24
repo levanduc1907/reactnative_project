@@ -15,6 +15,7 @@ import { Button } from "@rneui/base";
 import VideoList from "../components/VideoList";
 import { APIKEY } from "../assets/APIkey";
 import { get, set } from "react-hook-form";
+import axios from "axios";
 
 const styles = StyleSheet.create({
   input: {
@@ -121,29 +122,43 @@ export function SearchScreen() {
   const [suggest, setSuggest] = useState();
   const navigation = useNavigation();
   const getSuggest = async () => {
-    const query = text.toLocaleLowerCase().trim();
+    const query = text.toLowerCase().trim();
     if (query != "")
       try {
-        const response = await fetch(
+        // const response = await fetch(
+        //   `http://suggestqueries.google.com/complete/search?hl=en&ds=yt&client=youtube&hjson=t&cp=1&format=5&alt=json&q=${encodeURIComponent(
+        //     query
+        //   )}`,
+        //   {
+        //     headers: {
+        //       "X-Requested-With": "XMLHttpRequest",
+        //       "Content-Type": "application/json",
+        //       Accept: "application/json, text/plain, */*",
+        //       server: "gws",
+        //       credentials: "omit",
+        //     },
+        //   }
+        // );
+        // console.log("resp", response);
+
+        // json = await response?.json();
+        // setSuggest(json[1]);
+
+        // console.log(json);
+        const res = await axios.get(
           `https://suggestqueries-clients6.youtube.com/complete/search?client=youtube&hl=en&gl=vn&ds=yt&client=chrome&q=${encodeURIComponent(
             query
-          )}`,
-          {
-            headers: {
-              "X-Requested-With": "XMLHttpRequest",
-            },
-          }
+          )}`
         );
-        console.log("resp", response);
-        const json = await response?.json();
-
-        console.log(json);
-        setSuggest(json[1]);
+        setSuggest(res.data[1]);
       } catch (error) {
         console.log("error", error);
         setSuggest("");
       } finally {
       }
+    else {
+      setSuggest("");
+    }
   };
   useEffect(() => {
     setTimeout(getSuggest, 200);
@@ -177,23 +192,25 @@ export function SearchScreen() {
             if (text != "") navigation.navigate("SearchResult", { text });
           }}
         />
-        <TouchableOpacity
-          style={{
-            position: "absolute",
-            right: 50,
-          }}
-          onPress={() => {
-            setText("");
-          }}>
-          <Image
-            source={require("../assets/img/X_icon.png")}
+        {text ? (
+          <TouchableOpacity
             style={{
-              margin: 7,
-              height: 12,
-              width: 12,
-              resizeMode: "contain",
-            }}></Image>
-        </TouchableOpacity>
+              position: "absolute",
+              right: 50,
+            }}
+            onPress={() => {
+              setText("");
+            }}>
+            <Image
+              source={require("../assets/img/X_icon.png")}
+              style={{
+                margin: 7,
+                height: 12,
+                width: 12,
+                resizeMode: "contain",
+              }}></Image>
+          </TouchableOpacity>
+        ) : null}
         <TouchableOpacity
           onPress={() => {
             if (text != "") navigation.push("SearchResult", { text });

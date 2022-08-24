@@ -7,6 +7,7 @@ import { parseDuration } from "./convert_data";
 import { useNavigation } from "@react-navigation/native";
 import { APIKEY } from "../assets/APIkey";
 import { Directions } from "react-native-gesture-handler";
+import PopupMenuVideoPreview from "./PopupMenu_VideoPreview";
 const ScreenWidth = Dimensions.get("window").width;
 
 export default function LiteVideoPreview(props) {
@@ -52,7 +53,7 @@ export default function LiteVideoPreview(props) {
                 : null}
             </Text>
           </View>
-          <View style={{ flex: 1, paddingRight: 25 }}>
+          <View style={{ flex: 1 }}>
             <Text
               style={{ fontWeight: "500" }}
               numberOfLines={3}
@@ -67,6 +68,7 @@ export default function LiteVideoPreview(props) {
               {ConvertTime(item?.snippet?.publishedAt || "")}
             </Text>
           </View>
+          <PopupMenuVideoPreview item={item} />
         </View>
       </TouchableOpacity>
     </View>

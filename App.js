@@ -24,6 +24,7 @@ function checkDisplayBottomTab(route) {
   return {};
 }
 import { MMKV, useMMKVNumber, useMMKVString } from "react-native-mmkv";
+import { MenuProvider } from "react-native-popup-menu";
 export const storage = new MMKV();
 if (storage.getString("savedVideo") == null)
   storage.set("savedVideo", '{"items":[]}');
@@ -130,83 +131,85 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            headerShown: false,
-            tabBarShowLabel: false,
-          })}>
-          <Tab.Screen
-            name="HomeStack"
-            options={({ route }) => ({
-              tabBarStyle: checkDisplayBottomTab(route),
-              tabBarIcon: ({ focused }) => (
-                <BottomIcon
-                  iconname={
-                    focused
-                      ? require("./assets/img/home_focus.png")
-                      : require("./assets/img/home_unfocus.png")
-                  }
-                  label="Trang chủ"
-                />
-              ),
-            })}
-            component={HomeStackScreen}
-          />
-          <Tab.Screen
-            name="Short"
-            options={({ route }) => ({
-              tabBarStyle: checkDisplayBottomTab(route),
-              tabBarIcon: ({ focused }) => (
-                <BottomIcon
-                  iconname={
-                    focused
-                      ? require("./assets/img/short_focus.png")
-                      : require("./assets/img/short_unfocus.png")
-                  }
-                  label="Short"
-                />
-              ),
-            })}
-            component={ShortScreen}
-          />
+      <MenuProvider>
+        <NavigationContainer>
+          <Tab.Navigator
+            screenOptions={({ route }) => ({
+              headerShown: false,
+              tabBarShowLabel: false,
+            })}>
+            <Tab.Screen
+              name="HomeStack"
+              options={({ route }) => ({
+                tabBarStyle: checkDisplayBottomTab(route),
+                tabBarIcon: ({ focused }) => (
+                  <BottomIcon
+                    iconname={
+                      focused
+                        ? require("./assets/img/home_focus.png")
+                        : require("./assets/img/home_unfocus.png")
+                    }
+                    label="Trang chủ"
+                  />
+                ),
+              })}
+              component={HomeStackScreen}
+            />
+            <Tab.Screen
+              name="Short"
+              options={({ route }) => ({
+                tabBarStyle: checkDisplayBottomTab(route),
+                tabBarIcon: ({ focused }) => (
+                  <BottomIcon
+                    iconname={
+                      focused
+                        ? require("./assets/img/short_focus.png")
+                        : require("./assets/img/short_unfocus.png")
+                    }
+                    label="Short"
+                  />
+                ),
+              })}
+              component={ShortScreen}
+            />
 
-          <Tab.Screen
-            name="Subcribe"
-            options={({ route }) => ({
-              tabBarStyle: checkDisplayBottomTab(route),
-              tabBarIcon: ({ focused }) => (
-                <BottomIcon
-                  iconname={
-                    focused
-                      ? require("./assets/img/sub_focus.png")
-                      : require("./assets/img/sub_unfocus.png")
-                  }
-                  label="Kênh đăng ký"
-                />
-              ),
-            })}
-            component={SubscribeScreen}
-          />
-          <Tab.Screen
-            name="Library"
-            options={({ route }) => ({
-              tabBarStyle: checkDisplayBottomTab(route),
-              tabBarIcon: ({ focused }) => (
-                <BottomIcon
-                  iconname={
-                    focused
-                      ? require("./assets/img/library_focus.png")
-                      : require("./assets/img/library_unfocus.png")
-                  }
-                  label="Thư viện"
-                />
-              ),
-            })}
-            component={LibraryStackScreen}
-          />
-        </Tab.Navigator>
-      </NavigationContainer>
+            <Tab.Screen
+              name="Subcribe"
+              options={({ route }) => ({
+                tabBarStyle: checkDisplayBottomTab(route),
+                tabBarIcon: ({ focused }) => (
+                  <BottomIcon
+                    iconname={
+                      focused
+                        ? require("./assets/img/sub_focus.png")
+                        : require("./assets/img/sub_unfocus.png")
+                    }
+                    label="Kênh đăng ký"
+                  />
+                ),
+              })}
+              component={SubscribeScreen}
+            />
+            <Tab.Screen
+              name="Library"
+              options={({ route }) => ({
+                tabBarStyle: checkDisplayBottomTab(route),
+                tabBarIcon: ({ focused }) => (
+                  <BottomIcon
+                    iconname={
+                      focused
+                        ? require("./assets/img/library_focus.png")
+                        : require("./assets/img/library_unfocus.png")
+                    }
+                    label="Thư viện"
+                  />
+                ),
+              })}
+              component={LibraryStackScreen}
+            />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </MenuProvider>
     </SafeAreaView>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -9,64 +9,34 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
+
+import { storage } from "../App.js";
+import SimpleToast from "react-native-simple-toast";
 import VideoPlayerInfo from "./VideoPlayer_info.js";
 import { Directions } from "react-native-gesture-handler";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { ConvertCount, ConvertTime } from "../components/convert_data";
 import LiteVideoPreview from "./LiteVideoPreview.js";
 import { parseDuration } from "../components/convert_data";
+import { useMMKVObject } from "react-native-mmkv";
+import HistoryVideoPreview from "./HistoryVideoPreview.js";
 const ScreenWidth = Dimensions.get("window").width;
-export default function History(props) {
-  const navigation = useNavigation();
-  const data = props.data;
-  const ref = React.useRef();
+function checkSavedVideo(savedVideo, id) {
+  for (item of savedVideo.items) {
+    if (item?.id == id) {
+      return true;
+    }
+  }
+  return false;
+}
+export default function History() {
+  const [watchedvideo, setWatchedVideo] = useMMKVObject("watchedVideo");
+
+  const data = watchedvideo.items;
   return (
     <View style={{ flexDirection: "row", marginLeft: 15 }}>
       {data?.map((item, index) => (
-        <TouchableOpacity
-          key={index}
-          onPress={() => navigation.navigate("VideoPlayer", item)}>
-          <View key={index} style={{ width: (ScreenWidth * 3) / 8, margin: 5 }}>
-            <View>
-              <Image
-                style={{
-                  width: (ScreenWidth * 3) / 8,
-                  height: (ScreenWidth * 27) / 128,
-                  resizeMode: "cover",
-                }}
-                source={{ uri: item?.snippet?.thumbnails?.high?.url }}
-              />
-              <Text
-                // eslint-disable-next-line react-native/no-inline-styles
-                style={{
-                  color: "#fff",
-                  backgroundColor: "#000",
-                  position: "absolute",
-                  fontWeight: "bold",
-                  fontFamily: "ArialMT",
-                  fontSize: 11,
-                  right: 5,
-                  bottom: 5,
-                }}>
-                {" "}
-                {item?.contentDetails?.duration
-                  ? parseDuration(item?.contentDetails?.duration)
-                  : null}
-              </Text>
-            </View>
-            <View style={{ flex: 1, paddingRight: 10, paddingTop: 5 }}>
-              <Text
-                style={{ fontWeight: "400", fontSize: 14 }}
-                numberOfLines={2}
-                ellipsizeMode="tail">
-                {item?.snippet?.title}
-              </Text>
-              <Text style={{ color: "#484848", fontSize: 12 }}>
-                {item?.snippet?.channelTitle}
-              </Text>
-            </View>
-          </View>
-        </TouchableOpacity>
+        <HistoryVideoPreview key={index} item={item} index={index} />
       ))}
     </View>
   );

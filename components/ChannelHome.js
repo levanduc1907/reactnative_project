@@ -101,16 +101,14 @@ export default function ChannelHome(props) {
           paddingRight: 15,
           paddingLeft: 15,
           marginTop: 5,
+          marginBottom: 15,
         }}
         numberOfLines={2}
         ellipsizeMode="tail">
         {channel?.brandingSettings.channel?.description}
       </Text>
-      {trailer ? (
-        <VideoPreview video={trailer} />
-      ) : (
-        <View style={{ height: 20 }} />
-      )}
+      <VideoPreview video={trailer} />
+
       <View
         style={{
           borderTopColor: "#484848",

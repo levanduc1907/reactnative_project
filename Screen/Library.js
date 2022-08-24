@@ -9,8 +9,6 @@ import History from "../components/History";
 export default function LibraryScreen() {
   const [savedvideo, setSavedVideo] = useMMKVObject("savedVideo");
 
-  const [watchedvideo, setWatchedVideo] = useMMKVObject("watchedVideo");
-
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <Header />
@@ -33,7 +31,7 @@ export default function LibraryScreen() {
           nestedScrollEnabled={true}
           horizontal={true}
           showsHorizontalScrollIndicator={false}>
-          <History data={watchedvideo?.items} />
+          <History />
         </ScrollView>
         <View
           style={{

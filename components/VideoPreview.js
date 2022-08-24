@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, TouchableOpacity, Text, Image } from "react-native";
 import { StyleSheet } from "react-native";
 import { Dimensions } from "react-native";
@@ -7,6 +7,9 @@ import { parseDuration } from "./convert_data";
 import { useNavigation } from "@react-navigation/native";
 import { APIKEY } from "../assets/APIkey";
 import Skeleton from "react-loading-skeleton";
+
+import PopupMenuVideoPreview from "./PopupMenu_VideoPreview";
+
 const ScreenWidth = Dimensions.get("window").width;
 
 export default function VideoPreview(props) {
@@ -33,6 +36,7 @@ export default function VideoPreview(props) {
   useEffect(() => {
     getChannelThumb();
   }, [item]);
+
   const navigation = useNavigation();
   if (loading) return null;
   return (
@@ -80,7 +84,7 @@ export default function VideoPreview(props) {
               }}
             />
           </TouchableOpacity>
-          <View style={{ width: ScreenWidth * 0.8 }}>
+          <View style={{ width: ScreenWidth * 0.76 }}>
             <Text
               style={{ fontWeight: "500" }}
               numberOfLines={2}
@@ -97,6 +101,7 @@ export default function VideoPreview(props) {
               </Text>
             </View>
           </View>
+          <PopupMenuVideoPreview item={item} />
         </View>
       </TouchableOpacity>
     </View>
@@ -112,7 +117,7 @@ const styles = StyleSheet.create({
   videoItem: {
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 10,
+
     flexDirection: "column",
   },
   videoThumb: {

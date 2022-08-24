@@ -46,16 +46,17 @@ export default function VideoPlayer({ navigation, route }) {
     );
     return () => interactionPromise.cancel();
   }, []);
+
+  const item = route.params;
+
+  const bottomSheetModalRef = React.useRef();
   useEffect(() => {
     const watchedVideo = JSON.parse(storage.getString("watchedVideo"));
     if (item.id != watchedVideo.items[0]?.id) {
       watchedVideo.items.unshift(item);
       storage.set("watchedVideo", JSON.stringify(watchedVideo));
     }
-  }, []);
-  const item = route.params;
-
-  const bottomSheetModalRef = React.useRef();
+  }, [item]);
   const styles = StyleSheet.create({
     icon: {
       height: 20,
