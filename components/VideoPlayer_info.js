@@ -47,6 +47,7 @@ export default function VideoPlayerInfo() {
     if (!dislike) setLike(false);
     setDislike((prev) => !prev);
   });
+
   const toggleSave = useCallback(() => {
     const savedVideo = JSON.parse(storage.getString("savedVideo"));
 

@@ -131,7 +131,7 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <MenuProvider>
+      <MenuProvider style={{ flex: 1 }}>
         <NavigationContainer>
           <Tab.Navigator
             screenOptions={({ route }) => ({

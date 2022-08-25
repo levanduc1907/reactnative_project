@@ -47,6 +47,7 @@ export default function VideoPlayer({ navigation, route }) {
     return () => interactionPromise.cancel();
   }, []);
 
+  console.log("rere");
   const item = route.params;
 
   const bottomSheetModalRef = React.useRef();
@@ -117,7 +118,6 @@ export default function VideoPlayer({ navigation, route }) {
     handlePresentDescriptionPress,
     handleCloseModalPress,
   };
-  if (loading) return <View style={{ backgroundColor: "#000", flex: 1 }} />;
 
   return (
     <SheetContext.Provider value={[sheet, setSheet]}>
