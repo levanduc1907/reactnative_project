@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -37,25 +37,44 @@ const styles = StyleSheet.create({
 export function SearchResult({ route, navigation }) {
   const text = route.params.text;
   const [videos, setVideos] = useState([]);
+  const [nextPage, setNextpage] = useState("");
+  const isEnd = useRef(false);
   const getVideoIdList = async () => {
     try {
+      console.log("call api");
       const response = await fetch(
-        "https://youtube.googleapis.com/youtube/v3/search?part=id&maxResults=25&q=" +
+        "https://youtube.googleapis.com/youtube/v3/search?part=id&maxResults=5&q=" +
           text +
+          "&order=relevance" +
           "&regionCode=VN&key=" +
-          APIKEY
+          APIKEY +
+          "&pageToken=" +
+          nextPage
       );
       const json = await response.json();
-      return json.items;
+      console.log("serjs", json);
+      if (nextPage != json.nextPageToken) {
+        setNextpage((prev) => json.nextPageToken ?? prev);
+        console.log("nextpage", nextPage, "=", json.nextPageToken);
+        return json.items;
+      } else {
+        isEnd.current = true;
+        return [];
+      }
     } catch (error) {
       console.error(error);
       console.log("error");
+      return [];
     } finally {
     }
+  };
+  const handleLoadMore = () => {
+    if (!isEnd.current) getVideoList();
   };
 
   const getVideoList = async () => {
     const data = await getVideoIdList();
+    if (data == []) return;
     let idList = "";
     for (let item of data) {
       idList += item.id.videoId + "%2C";
@@ -69,7 +88,15 @@ export function SearchResult({ route, navigation }) {
           APIKEY
       );
       const json = await response.json();
-      setVideos(json.items);
+      setVideos((prev) => {
+        var list = [...prev];
+        json.items?.forEach((item) => {
+          if (list.filter((e) => e.id == item.id).length == 0) {
+            list.push(item);
+          }
+        });
+        return list;
+      });
     } catch (error) {
       console.error(error);
       console.log("error");
@@ -112,7 +139,7 @@ export function SearchResult({ route, navigation }) {
           <Text>{text}</Text>
         </TouchableOpacity>
       </View>
-      <VideoList data={videos}> </VideoList>
+      <VideoList data={videos} handleLoadMore={handleLoadMore} />
     </View>
   );
 }

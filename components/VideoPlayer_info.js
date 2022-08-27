@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useCallback, useContext } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useContext,
+  memo,
+} from "react";
 import {
   FlatList,
   StyleSheet,
@@ -33,9 +39,10 @@ function checkSavedVideo(id) {
   }
   return false;
 }
-export default function VideoPlayerInfo() {
+function VideoPlayerInfo() {
   const value = useContext(DataContext);
   const item = value.item;
+
   const [like, setLike] = useState(false);
   const [dislike, setDislike] = useState(false);
   const [issaved, setIsSaved] = useState(checkSavedVideo(item.id));
@@ -68,6 +75,7 @@ export default function VideoPlayerInfo() {
       SimpleToast.show("Xoá khỏi danh sách xem sau");
     }
   });
+
   return (
     <View
       style={{
@@ -175,3 +183,4 @@ export default function VideoPlayerInfo() {
     </View>
   );
 }
+export default VideoPlayerInfo;

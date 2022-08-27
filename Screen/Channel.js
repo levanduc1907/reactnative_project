@@ -25,6 +25,7 @@ const renderTabBar = (props) => (
 );
 export default function Channel({ route, navigation }) {
   const Id = route.params.channelId;
+  console.log("channel", Id);
   const title = route.params.channelTitle;
   const renderScene = ({ route, jumpTo }) => {
     switch (route.key) {

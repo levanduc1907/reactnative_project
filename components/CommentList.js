@@ -11,6 +11,7 @@ import { Text, View, ScrollView, Image } from "react-native";
 import { FlatList, TextInput } from "react-native-gesture-handler";
 import { ConvertCount, ConvertTime } from "./convert_data";
 import HeaderSheet from "./HeaderSheet";
+import Hyperlink from "react-native-hyperlink";
 const Tab = createNativeStackNavigator();
 
 function CommentList(props) {
@@ -53,19 +54,30 @@ function CommentList(props) {
               padding: 10,
               flex: 1,
             }}>
-            <Image
-              source={{
-                uri: item.snippet.topLevelComment.snippet.authorProfileImageUrl,
-              }}
-              style={{
-                height: 26,
-                width: 26,
-                resizeMode: "contain",
-                borderRadius: 13,
-                marginRight: 15,
-                marginLeft: 5,
-              }}
-            />
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Channel", {
+                  channelId:
+                    item.snippet.topLevelComment.snippet.authorChannelId.value,
+                  channelTitle:
+                    item.snippet.topLevelComment.snippet.authorDisplayName,
+                })
+              }>
+              <Image
+                source={{
+                  uri: item.snippet.topLevelComment.snippet
+                    .authorProfileImageUrl,
+                }}
+                style={{
+                  height: 26,
+                  width: 26,
+                  resizeMode: "contain",
+                  borderRadius: 13,
+                  marginRight: 15,
+                  marginLeft: 5,
+                }}
+              />
+            </TouchableOpacity>
             <View
               style={{
                 marginRight: 15,
@@ -84,11 +96,11 @@ function CommentList(props) {
                     item.snippet.topLevelComment.snippet.publishedAt
                   )}
                 </Text>
-
-                <Text numberOfLines={4} ellipsizeMode="tail">
-                  {item?.snippet.topLevelComment.snippet?.textOriginal}
-                </Text>
-
+                <Hyperlink linkDefault={true}>
+                  <Text numberOfLines={4} ellipsizeMode="tail">
+                    {item?.snippet.topLevelComment.snippet?.textOriginal}
+                  </Text>
+                </Hyperlink>
                 <View
                   style={{
                     flexDirection: "row",
@@ -230,9 +242,9 @@ function CommentDetail({ route, navigation }) {
               {item?.snippet.topLevelComment.snippet?.authorDisplayName} ·{" "}
               {ConvertTime(item.snippet.topLevelComment.snippet.publishedAt)}
             </Text>
-
-            <Text>{item?.snippet.topLevelComment.snippet?.textOriginal}</Text>
-
+            <Hyperlink linkDefault={true} linkStyle={{ color: "#3ea6ff" }}>
+              <Text>{item?.snippet.topLevelComment.snippet?.textOriginal}</Text>
+            </Hyperlink>
             <View
               style={{
                 flexDirection: "row",
@@ -294,7 +306,7 @@ function CommentDetail({ route, navigation }) {
           }}>
           <Image
             source={{
-              uri: "https://yt3.ggpht.com/9v791aXgd4UOgHOVAmwkoq77QplNF_NvZRS7O6hKmMtRT15W6iWXSXfDNihTkQOqIaeU-joNmg=s48-c-k-c0x00ffffff-no-rj",
+              uri: "https://yt3.ggpht.com/a/default-user=s48-c-k-c0x00ffffff-no-rj",
             }}
             style={{
               height: 26,
@@ -348,8 +360,9 @@ function CommentDetail({ route, navigation }) {
                   {ConvertTime(reply.snippet.publishedAt)}
                 </Text>
 
-                <Text>{reply.snippet?.textOriginal}</Text>
-
+                <Hyperlink linkDefault={true} linkStyle={{ color: "#3ea6ff" }}>
+                  <Text>{reply.snippet?.textOriginal}</Text>
+                </Hyperlink>
                 <View
                   style={{
                     flexDirection: "row",

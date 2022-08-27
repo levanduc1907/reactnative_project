@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, memo } from "react";
 import { View, TouchableOpacity, Text, Image } from "react-native";
 import { StyleSheet } from "react-native";
 import { Dimensions } from "react-native";
@@ -12,12 +12,13 @@ import PopupMenuVideoPreview from "./PopupMenu_VideoPreview";
 
 const ScreenWidth = Dimensions.get("window").width;
 
-export default function VideoPreview(props) {
+function VideoPreview(props) {
   const item = props.video;
   const [channelThumb, setChannelThumb] = useState();
   const [loading, setLoading] = useState();
   const getChannelThumb = async () => {
     try {
+      console.log("render preview");
       const response = await fetch(
         "https://youtube.googleapis.com/youtube/v3/channels?part=snippet&id=" +
           item?.snippet.channelId +
@@ -141,3 +142,4 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
 });
+export default memo(VideoPreview);

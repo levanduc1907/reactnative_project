@@ -32,6 +32,7 @@ import {
   getYear,
 } from "../components/convert_data";
 import { storage } from "../App";
+import Hyperlink from "react-native-hyperlink";
 export const DataContext = createContext();
 export const SheetContext = createContext();
 
@@ -47,7 +48,6 @@ export default function VideoPlayer({ navigation, route }) {
     return () => interactionPromise.cancel();
   }, []);
 
-  console.log("rere");
   const item = route.params;
 
   const bottomSheetModalRef = React.useRef();
@@ -186,14 +186,18 @@ export default function VideoPlayer({ navigation, route }) {
                           </View>
                         ))}
                       </View>
-                      <Text
-                        style={{
-                          margin: 15,
-                          marginBottom: 50,
-                          fontSize: 12,
-                        }}>
-                        {item.snippet?.description}
-                      </Text>
+                      <Hyperlink
+                        linkDefault={true}
+                        linkStyle={{ color: "#3ea6ff" }}>
+                        <Text
+                          style={{
+                            margin: 15,
+                            marginBottom: 50,
+                            fontSize: 12,
+                          }}>
+                          {item.snippet?.description}
+                        </Text>
+                      </Hyperlink>
                     </ScrollView>
                   </View>
                 ) : (
