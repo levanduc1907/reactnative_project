@@ -8,16 +8,16 @@ import {
   NavigationContainer,
 } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import HomeScreen from "./Screen/HomeScreen";
-import { SearchScreen, SearchResult } from "./Screen/SearchScreen";
+import HomeScreen from "./src/Screen/HomeScreen";
+import { SearchScreen, SearchResult } from "./src/Screen/SearchScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import VideoPlayer from "./Screen/VideoPlayer";
-import Channel from "./Screen/Channel";
+import VideoPlayer from "./src/Screen/VideoPlayer";
+import Channel from "./src/Screen/Channel";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Button } from "react-native-paper";
-import PlaylistDetails from "./components/PlaylistDetails";
+import PlaylistDetails from "./src/Screen/Channel/PlaylistDetails";
 import SimpleToast from "react-native-simple-toast";
-import LibraryScreen from "./Screen/Library";
+import LibraryScreen from "./src/Screen/Library";
 function checkDisplayBottomTab(route) {
   const routeName = getFocusedRouteNameFromRoute(route);
   if (routeName === "VideoPlayer") return { display: "none" };
@@ -146,8 +146,8 @@ export default function App() {
                   <BottomIcon
                     iconname={
                       focused
-                        ? require("./assets/img/home_focus.png")
-                        : require("./assets/img/home_unfocus.png")
+                        ? require("./src/assets/img/home_focus.png")
+                        : require("./src/assets/img/home_unfocus.png")
                     }
                     label="Trang chủ"
                   />
@@ -163,8 +163,8 @@ export default function App() {
                   <BottomIcon
                     iconname={
                       focused
-                        ? require("./assets/img/short_focus.png")
-                        : require("./assets/img/short_unfocus.png")
+                        ? require("./src/assets/img/short_focus.png")
+                        : require("./src/assets/img/short_unfocus.png")
                     }
                     label="Short"
                   />
@@ -181,8 +181,8 @@ export default function App() {
                   <BottomIcon
                     iconname={
                       focused
-                        ? require("./assets/img/sub_focus.png")
-                        : require("./assets/img/sub_unfocus.png")
+                        ? require("./src/assets/img/sub_focus.png")
+                        : require("./src/assets/img/sub_unfocus.png")
                     }
                     label="Kênh đăng ký"
                   />
@@ -198,8 +198,8 @@ export default function App() {
                   <BottomIcon
                     iconname={
                       focused
-                        ? require("./assets/img/library_focus.png")
-                        : require("./assets/img/library_unfocus.png")
+                        ? require("./src/assets/img/library_focus.png")
+                        : require("./src/assets/img/library_unfocus.png")
                     }
                     label="Thư viện"
                   />
